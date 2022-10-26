@@ -20,8 +20,17 @@ module.exports = {
   ignorePatterns: [".eslintrc.cjs"],
   rules: {
     "no-console": "off",
-
-    quotes: [2, "double", { avoidEscape: true }],
+    "quotes": [2, "double", { avoidEscape: true }],
     "prettier/prettier": ["error", { singleQuote: false }],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never",
+      },
+    ],
   },
 };
