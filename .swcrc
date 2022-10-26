@@ -1,0 +1,22 @@
+{
+  "minify": false,
+  "sourceMaps": true,
+  "inlineSourcesContent": true,
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "tsx": false,
+      "decorators": true,
+      "dynamicImport": true
+    }
+  },
+  "module": {
+    "type": "nodenext"
+  },
+  "env": {
+    "targets": {
+      "node": 16
+    }
+  }
+}
+
