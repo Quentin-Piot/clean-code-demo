@@ -8,9 +8,6 @@ export interface IGeoBoundary {
   northRight: ICoordinates;
 }
 
-export enum EnumDirection {
-  "NORTH" = "NORTH",
-  "WEST" = "WEST",
-  "EAST" = "EAST",
-  "SOUTH" = "SOUTH",
-}
+export type CardinalPoint = "N" | "W" | "E" | "S";
+
+export type Direction = "F" | "L" | "R";

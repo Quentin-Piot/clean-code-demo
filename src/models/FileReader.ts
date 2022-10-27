@@ -6,7 +6,7 @@ import {
   IMowerDataInput,
 } from "../interfaces/gardenSession.interface";
 import { isNumeric } from "../utils/string";
-import { generateDirectionFromString } from "../utils/geo";
+import { CardinalPoint, Direction } from "../interfaces/geo.interface";
 
 const relativeFilename = fileURLToPath(import.meta.url);
 const relativeDirname = dirname(relativeFilename);
@@ -72,10 +72,8 @@ const generateInputData = async (
         x: parseInt(arrayData[i][0], 10),
         y: parseInt(arrayData[i][1], 10),
       },
-      direction: generateDirectionFromString(
-        arrayData[i][2] as "N" | "S" | "W" | "E",
-      ),
-      actions: arrayData[i + 1] as ("F" | "L" | "R")[],
+      direction: arrayData[i][2] as CardinalPoint,
+      actions: arrayData[i + 1] as Direction[],
     };
     mowersData.push(data);
   }

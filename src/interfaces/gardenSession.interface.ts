@@ -1,14 +1,19 @@
 import { IMower } from "./mower.interface";
-import { EnumDirection, ICoordinates, IGeoBoundary } from "./geo.interface";
+import {
+  CardinalPoint,
+  Direction,
+  ICoordinates,
+  IGeoBoundary,
+} from "./geo.interface";
 
-export interface IGardenSession {
+export interface IGameSession {
   mowers: IMower[];
 }
 
 export interface IMowerDataInput {
   coordinates: ICoordinates;
-  direction: EnumDirection;
-  actions: ("F" | "L" | "R")[];
+  direction: CardinalPoint;
+  actions: Direction[];
 }
 
 export interface IGardenSessionInput {
@@ -18,7 +23,7 @@ export interface IGardenSessionInput {
 
 export interface IMowerActions {
   mowerIndex: number;
-  actions: ("F" | "L" | "R")[];
+  actions: Direction[];
   canMove: boolean;
   nextActionIndex: number;
 }

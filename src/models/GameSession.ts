@@ -1,16 +1,16 @@
-import Mower from "./mower";
+import Mower from "./Mower";
 
 import {
-  IGardenSession,
+  IGameSession,
   IGardenSessionInput,
   IMowerActions,
 } from "../interfaces/gardenSession.interface";
 import { ILawn } from "../interfaces/lawn.interface";
-import { EnumDirection, ICoordinates } from "../interfaces/geo.interface";
-import Lawn from "./lawn";
-import { generateDirectionFromMovement } from "../utils/geo";
+import { CardinalPoint, ICoordinates } from "../interfaces/geo.interface";
+import Lawn from "./Lawn";
+import { generateDirectionFromMovement, positionToString } from "../utils/geo";
 
-export default class GardenSession implements IGardenSession {
+export default class GameSession implements IGameSession {
   mowers: Mower[];
 
   lawn: Lawn;
@@ -58,9 +58,28 @@ export default class GardenSession implements IGardenSession {
 
     if (currentAction.nextActionIndex >= currentAction.actions.length) {
       this.actions[this.nextMowerToMove].canMove = false;
-      this.nextMowerToMove += 1;
+
+      if (this.nextMowerToMove < this.mowers.length - 1) {
+        console.info(
+          `Mower ${this.nextMowerToMove} has finished. Next mower starting and adding current mower as obstacle`,
+        );
+        this.nextMowerToMove += 1;
+        this.mowers[this.nextMowerToMove].obstacles.push(
+          this.mowers[this.nextMowerToMove - 1].coordinates,
+        );
+      }
     }
     if (!currentAction.canMove) return false;
+
+    if (currentAction.nextActionIndex === 0) {
+      console.info(
+        `Mower ${
+          this.nextMowerToMove
+        } is starting at position ${positionToString(
+          this.mowers[this.nextMowerToMove].coordinates,
+        )}`,
+      );
+    }
 
     this.mowers[currentAction.mowerIndex].direction =
       generateDirectionFromMovement(
@@ -78,10 +97,17 @@ export default class GardenSession implements IGardenSession {
     return success;
   }
 
+  /**
+   * Check if the game is over by checking if all the actions have been done
+   * @returns {boolean} Is the game over
+   */
   checkIfOver(): boolean {
     return this.actions.findIndex((action) => action.canMove) === -1;
   }
 
+  /**
+   * Play a full game
+   */
   playGame() {
     while (!this.checkIfOver()) {
       this.playNextMove();
@@ -90,12 +116,13 @@ export default class GardenSession implements IGardenSession {
     this.endGame();
   }
 
+  /**
+   * End the game by displaying the results
+   */
   endGame() {
     console.log("**** Final positions ****");
     this.mowers.forEach((mower, index) => {
-      console.log(
-        `Mower ${index + 1}: ${JSON.stringify(mower.coordinates, null, 2)}`,
-      );
+      console.log(`Mower ${index + 1}: ${positionToString(mower.coordinates)}`);
     });
     console.log("**** Game Over ****");
   }
@@ -110,7 +137,7 @@ export default class GardenSession implements IGardenSession {
   addMower(
     lawn: ILawn,
     startingCoordinates: ICoordinates,
-    startingDirection: EnumDirection,
+    startingDirection: CardinalPoint,
   ): number {
     const mower = new Mower(lawn, startingCoordinates, startingDirection);
     this.mowers.push(mower);

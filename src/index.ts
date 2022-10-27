@@ -1,9 +1,9 @@
-import generateInputData from "./models/fileReader";
-import GardenSession from "./models/gardenSession";
+import generateInputData from "./models/FileReader";
+import GameSession from "./models/GameSession";
 
 performance.mark("game-start");
 
-const session = new GardenSession();
+const session = new GameSession();
 
 generateInputData("../data/input.txt").then((data) => {
   performance.mark("parse-end");

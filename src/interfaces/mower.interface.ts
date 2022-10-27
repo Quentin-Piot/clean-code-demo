@@ -1,8 +1,10 @@
 import { ILawn } from "./lawn.interface";
-import { EnumDirection, ICoordinates } from "./geo.interface";
+import { CardinalPoint, ICoordinates } from "./geo.interface";
 
 export interface IMower {
   coordinates: ICoordinates;
-  direction: EnumDirection;
+  direction: CardinalPoint;
   lawn: ILawn;
+
+  obstacles?: ICoordinates[];
 }

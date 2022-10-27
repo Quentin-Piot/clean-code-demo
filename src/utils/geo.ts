@@ -1,61 +1,52 @@
-import { EnumDirection } from "../interfaces/geo.interface";
-
-export const generateDirectionFromString = (
-  str: "N" | "E" | "S" | "W",
-): EnumDirection => {
-  switch (str) {
-    case "E":
-      return EnumDirection.EAST;
-    case "N":
-      return EnumDirection.NORTH;
-    case "S":
-      return EnumDirection.SOUTH;
-    case "W":
-      return EnumDirection.WEST;
-    default:
-      return EnumDirection.NORTH;
-  }
-};
+import {
+  CardinalPoint,
+  Direction,
+  ICoordinates,
+} from "../interfaces/geo.interface";
 
 export const generateDirectionFromMovement = (
-  previousDirection: EnumDirection,
-  movement: "F" | "R" | "L",
-): EnumDirection => {
-  if (previousDirection === EnumDirection.NORTH) {
+  previousDirection: CardinalPoint,
+  movement: Direction,
+): CardinalPoint => {
+  if (previousDirection === "N") {
     if (movement === "F") {
-      return EnumDirection.NORTH;
+      return "N";
     }
     if (movement === "L") {
-      return EnumDirection.WEST;
+      return "W";
     }
-    return EnumDirection.EAST;
+    return "E";
   }
-  if (previousDirection === EnumDirection.SOUTH) {
+  if (previousDirection === "S") {
     if (movement === "F") {
-      return EnumDirection.SOUTH;
+      return "S";
     }
     if (movement === "L") {
-      return EnumDirection.EAST;
+      return "E";
     }
-    return EnumDirection.WEST;
+    return "W";
   }
-  if (previousDirection === EnumDirection.WEST) {
+  if (previousDirection === "W") {
     if (movement === "F") {
-      return EnumDirection.WEST;
+      return "W";
     }
     if (movement === "L") {
-      return EnumDirection.SOUTH;
+      return "S";
     }
-    return EnumDirection.NORTH;
+    return "N";
   }
-  if (previousDirection === EnumDirection.EAST) {
+  if (previousDirection === "E") {
     if (movement === "F") {
-      return EnumDirection.EAST;
+      return "E";
     }
     if (movement === "L") {
-      return EnumDirection.NORTH;
+      return "N";
     }
-    return EnumDirection.SOUTH;
+    return "S";
   }
-  return EnumDirection.NORTH;
+  return "N";
+};
+
+export const positionToString = (position: ICoordinates) => {
+  return `x:${position.x} y:${position.y}`;
 };
