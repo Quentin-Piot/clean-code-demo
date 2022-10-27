@@ -38,10 +38,9 @@ export default class GameSession implements IGameSession {
 
     for (let i = 0; i < input.mowersData.length; i += 1) {
       const data = input.mowersData[i];
-      const mower = new Mower(this.lawn, data.coordinates, data.direction);
-      const index = this.mowers.push(mower);
+      const index = this.addMower(this.lawn, data.coordinates, data.direction);
       this.actions.push({
-        mowerIndex: index - 1,
+        mowerIndex: index,
         actions: data.actions,
         nextActionIndex: 0,
         canMove: data.actions.length > 0,

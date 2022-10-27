@@ -5,18 +5,19 @@ import {
   ICoordinates,
   IGeoBoundary,
 } from "./geo.interface";
+import { IDataInput } from "./fileReader.interface";
 
 export interface IGameSession {
   mowers: IMower[];
 }
 
-export interface IMowerDataInput {
+export interface IMowerDataInput extends IDataInput {
   coordinates: ICoordinates;
   direction: CardinalPoint;
   actions: Direction[];
 }
 
-export interface IGardenSessionInput {
+export interface IGardenSessionInput extends IDataInput {
   boundaries: IGeoBoundary;
   mowersData: IMowerDataInput[];
 }

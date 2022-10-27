@@ -20,8 +20,10 @@ module.exports = {
   ignorePatterns: [".eslintrc.cjs"],
   rules: {
     "no-console": "off",
+    "class-methods-use-this": "off",
     "quotes": [2, "double", { avoidEscape: true }],
     "prettier/prettier": ["error", { singleQuote: false }],
+    "import/prefer-default-export": "off",
     "import/extensions": [
       "error",
       "ignorePackages",
