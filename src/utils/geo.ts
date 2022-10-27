@@ -24,12 +24,13 @@ export const generateDirectionFromMovement = (
   if (previousDirection === EnumDirection.NORTH) {
     if (movement === "F") {
       return EnumDirection.NORTH;
-    } else if (movement === "L") {
-      return EnumDirection.WEST;
-    } else if (movement === "R") {
-      return EnumDirection.EAST;
     }
-  } else if (previousDirection === EnumDirection.SOUTH) {
+    if (movement === "L") {
+      return EnumDirection.WEST;
+    }
+    return EnumDirection.EAST;
+  }
+  if (previousDirection === EnumDirection.SOUTH) {
     if (movement === "F") {
       return EnumDirection.SOUTH;
     }
@@ -37,7 +38,8 @@ export const generateDirectionFromMovement = (
       return EnumDirection.EAST;
     }
     return EnumDirection.WEST;
-  } else if (previousDirection === EnumDirection.WEST) {
+  }
+  if (previousDirection === EnumDirection.WEST) {
     if (movement === "F") {
       return EnumDirection.WEST;
     }
@@ -55,4 +57,5 @@ export const generateDirectionFromMovement = (
     }
     return EnumDirection.SOUTH;
   }
+  return EnumDirection.NORTH;
 };

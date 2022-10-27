@@ -62,15 +62,6 @@ export default class GardenSession implements IGardenSession {
     }
     if (!currentAction.canMove) return false;
 
-    console.log(
-      this.mowers[currentAction.mowerIndex].direction,
-      currentAction.actions[currentAction.nextActionIndex],
-      generateDirectionFromMovement(
-        this.mowers[currentAction.mowerIndex].direction,
-        currentAction.actions[currentAction.nextActionIndex],
-      ),
-    );
-
     this.mowers[currentAction.mowerIndex].direction =
       generateDirectionFromMovement(
         this.mowers[currentAction.mowerIndex].direction,
@@ -96,7 +87,17 @@ export default class GardenSession implements IGardenSession {
       this.playNextMove();
     }
 
-    console.log(this.mowers);
+    this.endGame();
+  }
+
+  endGame() {
+    console.log("**** Final positions ****");
+    this.mowers.forEach((mower, index) => {
+      console.log(
+        `Mower ${index + 1}: ${JSON.stringify(mower.coordinates, null, 2)}`,
+      );
+    });
+    console.log("**** Game Over ****");
   }
 
   /**

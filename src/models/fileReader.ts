@@ -13,11 +13,7 @@ const relativeDirname = dirname(relativeFilename);
 
 const asyncReadFile = async (filename: string) => {
   try {
-    const text = await fsPromises.readFile(
-      join(relativeDirname, filename),
-      "utf-8",
-    );
-    return text;
+    return await fsPromises.readFile(join(relativeDirname, filename), "utf-8");
   } catch (err) {
     throw new Error(
       `Can't read the input file: ${JSON.stringify(err, null, 2)}`,
@@ -25,7 +21,7 @@ const asyncReadFile = async (filename: string) => {
   }
 };
 
-const isDataCorrect = (data: (string | number)[][]) => {
+const isDataCorrect = (data: string[][]) => {
   if (data.length < 3 || data.length % 2 === 0) {
     console.error("Bad data Input");
     return false;
@@ -76,8 +72,10 @@ const generateInputData = async (
         x: parseInt(arrayData[i][0], 10),
         y: parseInt(arrayData[i][1], 10),
       },
-      direction: generateDirectionFromString(arrayData[i][2] as any),
-      actions: arrayData[i + 1] as any[],
+      direction: generateDirectionFromString(
+        arrayData[i][2] as "N" | "S" | "W" | "E",
+      ),
+      actions: arrayData[i + 1] as ("F" | "L" | "R")[],
     };
     mowersData.push(data);
   }
