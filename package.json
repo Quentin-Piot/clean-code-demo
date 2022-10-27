@@ -10,7 +10,7 @@
     "watch-compile": "swc src -w --out-dir dist",
     "watch-dev": "nodemon --watch \"dist/**/*\" -e js ./dist/index.js",
     "start": "node --experimental-specifier-resolution=node  dist/index.js",
-    "lint": "eslint \"src/**/*.ts\" --fix",
+    "lint": "eslint \"src /**/*.ts\" --fix",
     "test": "jest",
     "copy:data": "cpx 'src/data/**' 'dist/data'",
     "clean": "rm -rf node_modules && rm -rf dist"
