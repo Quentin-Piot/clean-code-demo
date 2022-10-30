@@ -28,8 +28,8 @@ const main = async () => {
       .measure("game-time", "game-start", "game-end")
       .duration.toFixed(2);
 
-    console.log(`Duration parsing: ${timeParse}ms`);
-    console.log(`Duration game: ${timeGame}ms`);
+    console.info(`Duration parsing: ${timeParse}ms`);
+    console.info(`Duration game: ${timeGame}ms`);
   } catch (e) {
     console.error(e);
   }

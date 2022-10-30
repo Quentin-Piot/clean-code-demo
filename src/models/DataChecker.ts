@@ -3,7 +3,7 @@ import { isNumeric } from "../utils/string";
 export default class DataChecker {
   isDataCorrect(data: string[][]) {
     if (data.length < 3 || data.length % 2 === 0) {
-      console.error("Bad data Input");
+      console.error("The input format is incorrect");
       return false;
     }
     if (

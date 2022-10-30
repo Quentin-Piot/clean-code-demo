@@ -8,7 +8,7 @@ import {
 import { ILawn } from "../interfaces/lawn.interface";
 import { CardinalPoint, ICoordinates } from "../interfaces/geo.interface";
 import Lawn from "./Lawn";
-import { generateDirectionFromMovement, positionToString } from "../utils/geo";
+import { positionToString } from "../utils/geo";
 
 export default class GameSession implements IGameSession {
   mowers: Mower[];
@@ -19,6 +19,8 @@ export default class GameSession implements IGameSession {
 
   nextMowerToMove: number;
 
+  over: boolean;
+
   constructor() {
     this.mowers = new Array<Mower>();
     this.lawn = new Lawn({
@@ -27,6 +29,7 @@ export default class GameSession implements IGameSession {
     });
     this.actions = new Array<IMowerActions>();
     this.nextMowerToMove = -1;
+    this.over = false;
   }
 
   generateData(input: IGardenSessionInput) {
@@ -60,12 +63,14 @@ export default class GameSession implements IGameSession {
 
       if (this.nextMowerToMove < this.mowers.length - 1) {
         console.info(
-          `Mower ${this.nextMowerToMove} has finished. Next mower starting and adding current mower as obstacle`,
+          `Mower ${this.nextMowerToMove} has finished. Next mower starting now.`,
         );
         this.nextMowerToMove += 1;
-        this.mowers[this.nextMowerToMove].obstacles.push(
-          this.mowers[this.nextMowerToMove - 1].coordinates,
-        );
+
+        // If we want to add mowers as obstacles, it's not written in the instructions, so for now it just only commented
+        // this.mowers[this.nextMowerToMove].obstacles.push(
+        //   this.mowers[this.nextMowerToMove - 1].coordinates,
+        // );
       }
     }
     if (!currentAction.canMove) return false;
@@ -79,28 +84,21 @@ export default class GameSession implements IGameSession {
         )}`,
       );
     }
+    const hasMoved = this.mowers[this.nextMowerToMove].move(
+      currentAction.actions[currentAction.nextActionIndex],
+    );
 
-    this.mowers[currentAction.mowerIndex].direction =
-      generateDirectionFromMovement(
-        this.mowers[currentAction.mowerIndex].direction,
-        currentAction.actions[currentAction.nextActionIndex],
-      );
-
-    let success = false;
-    if (currentAction.actions[currentAction.nextActionIndex] === "F") {
-      success = this.moveMower(this.nextMowerToMove);
-    }
     this.actions[this.nextMowerToMove].nextActionIndex =
       currentAction.nextActionIndex + 1;
 
-    return success;
+    return hasMoved;
   }
 
   /**
    * Check if the game is over by checking if all the actions have been done
    * @returns {boolean} Is the game over
    */
-  checkIfOver(): boolean {
+  checkIfNoActionRemaining(): boolean {
     return this.actions.findIndex((action) => action.canMove) === -1;
   }
 
@@ -108,7 +106,7 @@ export default class GameSession implements IGameSession {
    * Play a full game
    */
   playGame() {
-    while (!this.checkIfOver()) {
+    while (!this.checkIfNoActionRemaining()) {
       this.playNextMove();
     }
 
@@ -119,11 +117,14 @@ export default class GameSession implements IGameSession {
    * End the game by displaying the results
    */
   endGame() {
-    console.log("**** Final positions ****");
+    console.info("**** Final positions ****");
     this.mowers.forEach((mower, index) => {
-      console.log(`Mower ${index + 1}: ${positionToString(mower.coordinates)}`);
+      console.info(
+        `Mower ${index + 1}: ${positionToString(mower.coordinates)}`,
+      );
     });
-    console.log("**** Game Over ****");
+    this.over = true;
+    console.info("**** Game Over ****");
   }
 
   /**
@@ -141,15 +142,5 @@ export default class GameSession implements IGameSession {
     const mower = new Mower(lawn, startingCoordinates, startingDirection);
     this.mowers.push(mower);
     return this.mowers.length - 1;
-  }
-
-  /**
-   * Move a given mower of the session in the lawn
-   * @param index The index of the mower
-   * @returns {boolean} The mower has successfully moved
-   */
-  moveMower(index: number): boolean {
-    if (!this.mowers[index]) throw new Error("No mower at this index");
-    return this.mowers[index]?.move();
   }
 }

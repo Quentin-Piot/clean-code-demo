@@ -3,7 +3,7 @@ import { CardinalPoint, ICoordinates } from "./geo.interface";
 
 export interface IMower {
   coordinates: ICoordinates;
-  direction: CardinalPoint;
+  cardinalDirection: CardinalPoint;
   lawn: ILawn;
   obstacles?: ICoordinates[];
 }

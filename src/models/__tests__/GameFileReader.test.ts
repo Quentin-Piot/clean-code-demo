@@ -3,35 +3,37 @@ import DataChecker from "../DataChecker";
 import { asyncReadFile } from "../../utils/files";
 
 const correctFile = "../data/__tests__/inputCorrect.txt";
-const incorrectFile = "../data/__tests__/inputIncorrect.txt";
 
-describe("Data Parsing", () => {
-  let fileReader: GameFileReader;
+const correctString =
+  "5 5\n" + "1 2 N\n" + "LFLFLFLFF\n" + "3 3 E\n" + "FFRFFRFRRF";
+const incorrectString =
+  "5 5\n" + "1 2 X\n" + "LFLFLFLFF\n" + "3 3 E\n" + "FFRFFRFRRF";
+
+describe("Game data parsing", () => {
+  let gameFileReader: GameFileReader;
 
   beforeAll(() => {
     const dataChecker = new DataChecker();
-    fileReader = new GameFileReader(dataChecker);
+    gameFileReader = new GameFileReader(dataChecker);
   });
 
-  test("Can read file", async () => {
+  test("should read a file", async () => {
     const file = await asyncReadFile(correctFile);
     expect(file).toBeTruthy();
   });
-  test("Can parse correct data", async () => {
-    const data = await asyncReadFile(correctFile);
-    const parsedData = fileReader.parseData(data);
+  test("should parse data with correct file", async () => {
+    const parsedData = gameFileReader.parseData(correctString);
     expect(parsedData).toHaveLength(5);
   });
 
-  test("Can't parse incorrect data", async () => {
-    const data = await asyncReadFile(incorrectFile);
+  test("should throw error when parsing incorrect data", async () => {
     expect(() => {
-      fileReader.parseData(data);
+      gameFileReader.parseData(incorrectString);
     }).toThrow(Error);
   });
 
-  test("Can generate correct input", async () => {
-    const data = await fileReader.processFile(correctFile);
+  test("should generate a correct input file when parsing correct data", async () => {
+    const data = await gameFileReader.processFile(correctFile);
     expect(data.ok).toBe(true);
     expect(data.mowersData).toHaveLength(2);
   });

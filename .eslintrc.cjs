@@ -23,6 +23,7 @@ module.exports = {
     "class-methods-use-this": "off",
     "quotes": [2, "double", { avoidEscape: true }],
     "prettier/prettier": ["error", { singleQuote: false }],
+    "no-useless-concat": "off",
     "import/prefer-default-export": "off",
     "import/extensions": [
       "error",
