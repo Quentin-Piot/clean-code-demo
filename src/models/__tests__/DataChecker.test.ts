@@ -16,7 +16,7 @@ const incorrectData = [
   ["F", "F", "R", "F", "F", "R", "F", "R", "R", "F"],
 ];
 
-describe("Game data parsing", () => {
+describe("Data checker", () => {
   test("should create a DataChecker instance ", async () => {
     const dataChecker = new DataChecker();
     expect(dataChecker).toBeTruthy();

@@ -41,7 +41,7 @@ const inputDataFinished: IGardenSessionInput = {
   ],
 };
 
-describe("Mower tests", () => {
+describe("Game sessions tests", () => {
   let lawn: Lawn;
 
   beforeAll(() => {
