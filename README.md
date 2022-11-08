@@ -1,5 +1,5 @@
 
-# Content Square test (Quentin Piot)
+# Clean code demo for an interview homework
 
 ## Running app
 
